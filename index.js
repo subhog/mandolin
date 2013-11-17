@@ -80,4 +80,29 @@
     });
   };
 
+  window.play = function(note) {
+    var delay, velocity;
+    delay = 0;
+    velocity = 127;
+    MIDI.setVolume(0, 127);
+    MIDI.noteOn(0, note, velocity, 0);
+    return MIDI.noteOff(0, note, 0.75);
+  };
+
+  window.onload = function() {
+    return MIDI.loadPlugin({
+      soundfontUrl: "midi/soundfont/",
+      instrument: "acoustic_grand_piano",
+      callback: function() {
+        var delay, note, velocity;
+        delay = 0;
+        note = 50;
+        velocity = 127;
+        MIDI.setVolume(0, 127);
+        MIDI.noteOn(0, note, velocity, delay);
+        return MIDI.noteOff(0, note, delay + 0.75);
+      }
+    });
+  };
+
 }).call(this);

@@ -67,14 +67,33 @@ $ ->
 window.select = (note) ->
   places.each (place) ->
     # console.log place, place.data 'note'
+    window.play 48
     return null unless note is place.data 'note'
     place.toggleClass 'selected'
 
 
+window.play = (note) ->
+  delay = 0; # play one note every quarter second
+      # note = 50; # the MIDI note
+  velocity = 127; # how hard the note hits
+      # play the note
+  MIDI.setVolume(0, 127);
+  MIDI.noteOn(0, note, velocity, 0);
+  MIDI.noteOff(0, note, 0.75);
 
-
-
-
+window.onload = ->
+  MIDI.loadPlugin
+    soundfontUrl: "midi/soundfont/"
+    instrument: "acoustic_grand_piano"
+    callback: ->
+      delay = 0; # play one note every quarter second
+      note = 50; # the MIDI note
+      velocity = 127; # how hard the note hits
+      # play the note
+      MIDI.setVolume(0, 127);
+      MIDI.noteOn(0, note, velocity, delay);
+      MIDI.noteOff(0, note, delay + 0.75);
+    
 
 
 
